@@ -1,6 +1,4 @@
-package com.example.demo.dto;
-
-import java.util.Locale.Category;
+package com.example.demo.dto.Video;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +9,7 @@ public class VideoDto {
 
     private String file_url;
     private String title;
-    private Category category_id; 
+    private String description;
+    // private Integer course_id; 
 
 }

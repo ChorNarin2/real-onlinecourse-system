@@ -31,8 +31,14 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/**").permitAll()
+
+
+                        .requestMatchers( "/category/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
+                        .requestMatchers( "/test/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
+                        .requestMatchers( "/course/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
+                        .requestMatchers(HttpMethod.POST, "/video/**").hasAnyRole(Role.ADMIN.name())
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(   "/api/**").permitAll()
                         
                         
                         .requestMatchers("/api/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
