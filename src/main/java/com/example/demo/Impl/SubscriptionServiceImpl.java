@@ -1,8 +1,6 @@
 package com.example.demo.Impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Repository.CourseRepository;
@@ -12,7 +10,6 @@ import com.example.demo.models.Course;
 import com.example.demo.models.Subscription;
 import com.example.demo.models.User;
 import com.example.demo.models.Enum.SubscriptionEnum;
-import com.example.demo.models.Enum.VideoEnumStatus;
 import com.example.demo.services.SubscriptionService;
 
 import jakarta.transaction.Transactional;

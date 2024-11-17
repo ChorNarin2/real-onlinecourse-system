@@ -23,6 +23,9 @@ public class Notification {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private boolean isRead = false;
+
+
     @Column
     private String message;
     

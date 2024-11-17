@@ -19,7 +19,6 @@ import com.example.demo.models.Course;
 import com.example.demo.models.Subscription;
 import com.example.demo.models.User;
 import com.example.demo.models.Enum.SubscriptionEnum;
-import com.example.demo.models.Enum.VideoEnumStatus;
 import com.example.demo.services.CourseService;
 import com.example.demo.services.SubscriptionService;
 import com.example.demo.dto.Course.CourseUpdateDto;

@@ -119,7 +119,7 @@ public class User implements UserDetails {
     }
 
     public String getFullName() {
-        return getFullName();
+        return firstname + " " + lastname;
     }
 
 

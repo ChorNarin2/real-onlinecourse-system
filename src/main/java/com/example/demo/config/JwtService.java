@@ -9,7 +9,11 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Exceptions.CustomJwtException;
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -37,9 +41,13 @@ public class JwtService {
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
+    // Example: Adding a grace period of 5 minutes (300 seconds) for clock skew
     private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+        Date expirationDate = extractExpiration(token);
+        long skewAllowanceMillis = 5 * 60 * 1000; // 5 minutes in milliseconds
+        return expirationDate.getTime() + skewAllowanceMillis < System.currentTimeMillis();
     }
+
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
@@ -51,19 +59,42 @@ public class JwtService {
             .setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 6000000)) // 10 minutes
+            // Set a long expiration time (e.g., 1 year)
+            .setExpiration(new Date(System.currentTimeMillis() + 365L * 24 * 60 * 60 * 1000)) // 1 year
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();
     }
+    
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-            .parserBuilder()
-            .setSigningKey(getSignInKey())
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            // Ignore expiration check (not recommended)
+            return e.getClaims();
+        } catch (JwtException e) {
+            throw new CustomJwtException("Invalid JWT token", e);
+        }
     }
+    
+// private Claims extractAllClaims(String token) {
+//     try {
+//         return Jwts.parserBuilder()
+//                 .setSigningKey(getSignInKey()) // Make sure getSignInKey() returns the correct signing key
+//                 .build()
+//                 .parseClaimsJws(token)  // Parse the token
+//                 .getBody();  // Extract claims body
+//     } catch (ExpiredJwtException e) {
+//         throw new CustomJwtException("JWT token is expired", e); // Handle expired token
+//     } catch (JwtException e) {
+//         throw new CustomJwtException("Invalid JWT token", e); // Handle invalid token
+//     }
+// }
+
 
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);

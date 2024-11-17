@@ -41,7 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(   "/api/**").permitAll()
                         
                         
-                        .requestMatchers("/api/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
+                        // .requestMatchers("/api/admin/**").hasAnyRole(Role.ADMIN.name(), Role.MANAGER.name())
 
                         .requestMatchers(HttpMethod.GET, "/role/manager/**")
                         .hasAnyAuthority(Permission.ADMIN_READ.name(), Permission.MANAGER_READ.name())

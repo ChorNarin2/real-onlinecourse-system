@@ -5,24 +5,16 @@ import com.example.demo.Repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.List;
-import java.util.Optional;
 
 
 import com.example.demo.Repository.CourseRepository;
 import com.example.demo.dto.Course.CourseDto;
 import com.example.demo.dto.Course.CourseUpdateDto;
-import com.example.demo.mappers.CourseMapper;
 import com.example.demo.models.Category;
 import com.example.demo.models.Course;
-import com.example.demo.models.Role;
 import com.example.demo.models.User;
 import com.example.demo.services.CourseService;
-
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
