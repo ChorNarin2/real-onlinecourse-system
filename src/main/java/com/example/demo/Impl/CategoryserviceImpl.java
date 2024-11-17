@@ -5,8 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Repository.CategoryRepository;
+import com.example.demo.dto.Category.CategoryDto;
+import com.example.demo.mappers.CategoryMapper;
 import com.example.demo.models.Category;
 import com.example.demo.services.Categoryservice;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,8 +19,13 @@ public class CategoryserviceImpl implements Categoryservice{
 
     private final CategoryRepository categoryRepository;
 
+
     @Override
-    public Category createCategory(Category category) {
+    public Category createCategory(CategoryDto categoryDto) {
+
+
+                
+        Category category = CategoryMapper.INSTANCE.toCategory(categoryDto);
         Category create = categoryRepository.save(category);
         return create;
     }
@@ -26,7 +34,6 @@ public class CategoryserviceImpl implements Categoryservice{
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
-
 
     @Override
     public Category GetById(Integer id) {
